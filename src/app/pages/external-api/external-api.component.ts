@@ -1,4 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { environment as env } from 'src/environments/environment';
+
+interface Message {
+  message: string
+}
 
 @Component({
   selector: 'app-external-api',
@@ -7,7 +13,15 @@ import { Component, OnInit } from '@angular/core';
 export class ExternalApiComponent implements OnInit {
   message: string = null;
 
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
 
   ngOnInit(): void {}
+
+  callApi(): void {
+    this.httpClient
+    .get(`${env.dev.serverUrl}/api/messages/public-message`)
+    .subscribe((result: Message) => {
+      this.message = result.message
+    });
+  }
 }
