@@ -24,4 +24,12 @@ export class ExternalApiComponent implements OnInit {
       this.message = result.message
     });
   }
+
+    callSecureApi(): void {
+      this.httpClient
+      .get(`${env.dev.serverUrl}/api/messages/protected-message`)
+      .subscribe((result: Message) => {
+        this.message = result.message
+    });
+  }
 }

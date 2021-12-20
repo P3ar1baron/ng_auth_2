@@ -14,9 +14,9 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ExternalApiComponent } from './pages/external-api/external-api.component';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { AuthModule } from '@auth0/auth0-angular';
+import { AuthModule, AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { environment as env } from 'src/environments/environment';
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { LogoutButtonComponent } from './components/logout-button/logout-button.component';
@@ -43,7 +43,17 @@ import { LogoutButtonComponent } from './components/logout-button/logout-button.
     FontAwesomeModule,
     AuthModule.forRoot({
       ...env.auth, 
-    })
+      httpInterceptor: {
+        allowedList: [`${env.dev.serverUrl}/api/messages/protected-message`]
+      }
+    }),
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthHttpInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent],
 })
