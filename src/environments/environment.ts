@@ -3,8 +3,8 @@ import {domain,clientId} from '../../auth_config.json';
 export const environment = {
   production: false,
   auth: {
-    domain,
-    clientId,
+    domain: "domain",
+    clientId: "clientId",
     redirectUri: window.location.origin
   }
 };
